@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>United Fire Safety Equipments</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">United fire Safety Equipments</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <h1>Welcome to FireSafe</h1>
+        <p>Your safety is our priority. We provide top-notch fire safety solutions.</p>
+        <a href="#contact" class="btn">Get In Touch</a>
+    </section>
+
+    <section id="about" class="about">
+        <h2>About Us</h2>
+        <p>FireSafe is a leading provider of fire safety solutions, offering a wide range of fire extinguishers and safety equipment to ensure your safety and peace of mind.</p>
+    </section>
+
+    <section id="products" class="products">
+        <h2>Our Products</h2>
+        <div id="app">
+            <div class="product-list">
+                <div class="product" v-for="product in products" :key="product.id">
+                    <img :src="product.image" :alt="product.name">
+                    <h2>{{ product.name }}</h2>
+                    <p>{{ product.description }}</p>
+                    <p>${{ product.price }}</p>
+                    <button @click="addToCart(product)">Add to Cart</button>
+                </div>
+            </div>
+            <div class="cart-details">
+                <h2>Cart</h2>
+                <div v-if="cart.length === 0">Your cart is empty</div>
+                <div class="cart-item" v-for="item in cart" :key="item.id">
+                    <p>{{ item.name }} - ${{ item.price }}</p>
+                    <button @click="removeFromCart(item)">Remove</button>
+                </div>
+                <p v-if="cart.length > 0">Total: ${{ cartTotal }}</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="extinguisher-management">
+        <h1>Fire Extinguisher Management</h1>
+        <!-- Form to Add or Update Extinguisher -->
+        <form @submit.prevent="addOrUpdateExtinguisher">
+            <input type="hidden" v-model="form.id">
+            <div>
+                <label for="location">Location:</label>
+                <input type="text" id="location" v-model="form.location" required>
+            </div>
+            <div>
+                <label for="type">Type:</label>
+                <input type="text" id="type" v-model="form.type" required>
+            </div>
+            <div>
+                <label for="lastInspectionDate">Last Inspection Date:</label>
+                <input type="date" id="lastInspectionDate" v-model="form.lastInspectionDate" required>
+            </div>
+            <button type="submit">{{ form.id ? 'Update' : 'Add' }} Extinguisher</button>
+        </form>
+        <!-- Extinguisher List -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Location</th>
+                    <th>Type</th>
+                    <th>Last Inspection Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="extinguisher in extinguishers" :key="extinguisher.id">
+                    <td>{{ extinguisher.location }}</td>
+                    <td>{{ extinguisher.type }}</td>
+                    <td>{{ extinguisher.lastInspectionDate }}</td>
+                    <td>
+                        <button @click="editExtinguisher(extinguisher)">Edit</button>
+                        <button @click="deleteExtinguisher(extinguisher.id)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="services" class="services">
+        <h2>Our Services</h2>
+        <div class="service">
+            <h3>Installation</h3>
+            <p>Professional installation of fire safety equipment.</p>
+        </div>
+        <div class="service">
+            <h3>Maintenance</h3>
+            <p>Regular maintenance to keep your equipment in top condition.</p>
+        </div>
+        <div class="service">
+            <h3>Training</h3>
+            <p>Comprehensive training for proper use of fire safety equipment.</p>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <h2>Contact Us</h2>
+        <form action="/contact" method="POST">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="message">Message</label>
+            <textarea id="message" name="message" required></textarea>
+            
+            <button type="submit" class="btn">Send</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 FireSafe. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="app.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
